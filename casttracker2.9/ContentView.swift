@@ -12,10 +12,17 @@ struct ContentView: View {
                 
                 }
 
-            JourneyMapView()
-                .tabItem {
-                    Label("Map", systemImage: "map.fill")
+            Group {
+                if #available(iOS 17.0, *) {
+                    JourneyMapView()
+                } else {
+                    Text("Map requires iOS 17")
+                        .foregroundStyle(.secondary)
                 }
+            }
+            .tabItem {
+                Label("Map", systemImage: "map.fill")
+            }
 
             TripLogView()
                 .tabItem {

@@ -2,6 +2,7 @@ import SwiftUI
 import MapKit
 import CoreData
 
+@available(iOS 17.0, *)
 struct JourneyMapView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
