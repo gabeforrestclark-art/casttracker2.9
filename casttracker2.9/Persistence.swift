@@ -1,10 +1,3 @@
-//
-//  Persistence.swift
-//  casttracker2.9
-//
-//  Created by gabe clark on 4/6/26.
-//
-
 import CoreData
 
 struct PersistenceController {
@@ -14,44 +7,69 @@ struct PersistenceController {
     static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+        // Create sample trips
+        for i in 1...5 {
+            let trip = CDTrip(context: viewContext)
+            trip.id = UUID()
+            trip.name = "Trip \(i) — Sample Lake"
+            trip.siteNumber = Int32(i)
+            trip.date = Calendar.current.date(byAdding: .day, value: -i * 7, to: Date())
+            trip.status = i <= 2 ? "completed" : "planned"
+            trip.season = "Spring"
+            trip.waterType = "Lake"
+            trip.latitude = 46.0 + Double(i) * 0.5
+            trip.longitude = -94.0 + Double(i) * 0.3
+
+            if i <= 2 {
+                let c = CDCatch(context: viewContext)
+                c.id = UUID()
+                c.species = ["Walleye", "Northern Pike"][i - 1]
+                c.lengthInches = Double.random(in: 14...28)
+                c.weightLbs = Double.random(in: 1.5...8.0)
+                c.date = trip.date
+                c.weatherConditions = "Partly Cloudy"
+                c.trip = trip
+            }
+        }
+        // Create sample sites
+        let siteNames = ["Mille Lacs", "Lake Vermilion", "Leech Lake", "Red Lake", "Lake of the Woods"]
+        for (i, name) in siteNames.enumerated() {
+            let site = CDFishingSite(context: viewContext)
+            site.id = UUID()
+            site.siteNumber = Int32(i + 1)
+            site.name = name
+            site.latitude = 46.0 + Double(i) * 0.5
+            site.longitude = -94.0 + Double(i) * 0.3
+            site.waterType = "Lake"
+            site.county = "Sample County"
         }
         do {
             try viewContext.save()
         } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
         return result
     }()
 
-    let container: NSPersistentCloudKitContainer
+    let container: NSPersistentContainer
 
     init(inMemory: Bool = false) {
-        container = NSPersistentCloudKitContainer(name: "casttracker2_9")
+        container = NSPersistentContainer(name: "casttracker2_9")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores { _, error in
             if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-        })
+        }
         container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+
+        // Preload 70 fishing sites on first launch
+        if !inMemory {
+            SiteDataLoader.preloadSitesIfNeeded(context: container.viewContext)
+        }
     }
 }
