@@ -138,6 +138,8 @@ struct JourneyMapView: View {
 }
 
 #Preview {
-    JourneyMapView()
-        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    if #available(iOS 17.0, *) {
+        JourneyMapView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    }
 }
