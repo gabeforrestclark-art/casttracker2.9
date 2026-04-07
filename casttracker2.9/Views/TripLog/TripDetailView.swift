@@ -137,17 +137,14 @@ struct TripDetailView: View {
         let coordinate = CLLocationCoordinate2D(latitude: trip.latitude, longitude: trip.longitude)
         let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
 
-        if #available(iOS 17.0, *) {
-            return Map(initialPosition: .region(region)) {
-                Marker(trip.name ?? "Trip", coordinate: coordinate)
-                    .tint(trip.status == "completed" ? .green : .orange)
-            }
-            .frame(height: 180)
-            .cornerRadius(12)
-            .allowsHitTesting(false)
-        } else {
-            // Fallback on earlier versions
+        return Map(initialPosition: .region(region)) {
+            Marker(trip.name ?? "Trip", coordinate: coordinate)
+                .tint(trip.status == "completed" ? .green : .orange)
         }
+        .frame(height: 180)
+        .cornerRadius(12)
+        .allowsHitTesting(false)
+    }
 
     // MARK: - Stats
 
