@@ -38,7 +38,7 @@ enum SiteDataLoader {
             site.waterType = siteJSON.waterType
             site.latitude = siteJSON.latitude
             site.longitude = siteJSON.longitude
-            site.zone = siteJSON.zone
+            site.siteZone = siteJSON.zone
             site.targetSpecies = siteJSON.targetSpecies
             site.recommendedBait = siteJSON.recommendedBait
             site.lore = siteJSON.lore

@@ -38,7 +38,7 @@
         <attribute name="waterBody" optional="YES" attributeType="String"/>
         <attribute name="waterType" optional="YES" attributeType="String"/>
         <attribute name="youtubeIdea" optional="YES" attributeType="String"/>
-        <attribute name="zone" optional="YES" attributeType="String"/>
+        <attribute name="siteZone" optional="YES" attributeType="String"/>
         <relationship name="trips" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDTrip" inverseName="site" inverseEntity="CDTrip"/>
     </entity>
     <entity name="CDTrip" representedClassName="CDTrip" syncable="YES" codeGenerationType="none">

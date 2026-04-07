@@ -59,7 +59,7 @@ struct SiteDetailSheet: View {
 
             Spacer()
 
-            if let zone = site.zone, !zone.isEmpty {
+            if let zone = site.siteZone, !zone.isEmpty {
                 Text(zone)
                     .font(.caption2)
                     .fontWeight(.semibold)

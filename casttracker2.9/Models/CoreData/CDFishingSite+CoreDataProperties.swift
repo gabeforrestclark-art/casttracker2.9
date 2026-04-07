@@ -22,7 +22,7 @@ extension CDFishingSite {
     @NSManaged public var waterBody: String?
     @NSManaged public var waterType: String?
     @NSManaged public var youtubeIdea: String?
-    @NSManaged public var zone: String?
+    @NSManaged public var siteZone: String?
     @NSManaged public var trips: NSSet?
 
 }
