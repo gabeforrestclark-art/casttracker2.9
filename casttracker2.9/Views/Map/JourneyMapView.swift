@@ -2,7 +2,6 @@ import SwiftUI
 import MapKit
 import CoreData
 
-@available(iOS 17.0, *)
 struct JourneyMapView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
@@ -79,7 +78,8 @@ struct JourneyMapView: View {
             .navigationBarTitleDisplayMode(.inline)
             .sheet(item: $selectedSite) { site in
                 SiteDetailSheet(site: site)
-                    .presentationDetents([.medium])
+                    .presentationDetents([.medium, .large])
+                    .presentationDragIndicator(.visible)
             }
         }
     }
@@ -137,10 +137,6 @@ struct JourneyMapView: View {
 }
 
 #Preview {
-    if #available(iOS 17.0, *) {
-        JourneyMapView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-    } else {
-        // Fallback on earlier versions
-    }
+    JourneyMapView()
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }

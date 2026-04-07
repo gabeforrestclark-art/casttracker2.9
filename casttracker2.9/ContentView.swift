@@ -12,6 +12,11 @@ struct ContentView: View {
                 
                 }
 
+            JourneyMapView()
+                .tabItem {
+                    Label("Map", systemImage: "map.fill")
+                }
+
             TripLogView()
                 .tabItem {
                     Label("Trips", systemImage: "list.bullet")
