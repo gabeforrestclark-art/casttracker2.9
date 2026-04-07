@@ -25,10 +25,12 @@ struct TripLogView: View {
 
     private var completedTrips: [CDTrip] {
         filteredTrips.filter { $0.status == "completed" }
+            .sorted { ($0.date ?? .distantPast) > ($1.date ?? .distantPast) }
     }
 
     private var plannedTrips: [CDTrip] {
         filteredTrips.filter { $0.status == "planned" }
+            .sorted { $0.siteNumber < $1.siteNumber }
     }
 
     var body: some View {
