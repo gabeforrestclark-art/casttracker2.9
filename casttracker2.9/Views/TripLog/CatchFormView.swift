@@ -177,7 +177,6 @@ struct CatchFormView: View {
         let targetTrip = trip ?? selectedTrip
         catchEntry.trip = targetTrip
 
-        // Mark trip as completed if it was planned
         if targetTrip?.status == "planned" {
             targetTrip?.status = "completed"
         }
