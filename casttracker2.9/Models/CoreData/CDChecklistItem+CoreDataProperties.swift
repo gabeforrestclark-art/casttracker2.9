@@ -14,3 +14,5 @@ extension CDChecklistItem {
     @NSManaged public var trip: CDTrip?
 
 }
+
+extension CDChecklistItem: Identifiable {}

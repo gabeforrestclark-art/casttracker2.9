@@ -22,3 +22,5 @@ extension CDCatch {
     @NSManaged public var trip: CDTrip?
 
 }
+
+extension CDCatch: Identifiable {}

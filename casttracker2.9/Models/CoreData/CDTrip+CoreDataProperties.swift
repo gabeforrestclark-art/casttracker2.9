@@ -23,6 +23,8 @@ extension CDTrip {
 
 }
 
+extension CDTrip: Identifiable {}
+
 extension CDTrip {
 
     @objc(addCatchesObject:)

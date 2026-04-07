@@ -27,6 +27,8 @@ extension CDFishingSite {
 
 }
 
+extension CDFishingSite: Identifiable {}
+
 extension CDFishingSite {
 
     @objc(addTripsObject:)

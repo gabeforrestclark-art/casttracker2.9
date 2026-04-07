@@ -133,17 +133,19 @@ struct TripDetailView: View {
 
     // MARK: - Map
 
+    @ViewBuilder
     private var mapSnippet: some View {
         let coordinate = CLLocationCoordinate2D(latitude: trip.latitude, longitude: trip.longitude)
-        let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-
-        return Map(initialPosition: .region(region)) {
-            Marker(trip.name ?? "Trip", coordinate: coordinate)
-                .tint(trip.status == "completed" ? .green : .orange)
+        if #available(iOS 17.0, *) {
+            let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+            Map(initialPosition: .region(region)) {
+                Marker(trip.name ?? "Trip", coordinate: coordinate)
+                    .tint(trip.status == "completed" ? .green : .orange)
+            }
+            .frame(height: 180)
+            .cornerRadius(12)
+            .allowsHitTesting(false)
         }
-        .frame(height: 180)
-        .cornerRadius(12)
-        .allowsHitTesting(false)
     }
 
     // MARK: - Stats
